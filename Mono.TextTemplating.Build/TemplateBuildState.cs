@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 using MessagePack;
@@ -63,7 +62,7 @@ namespace Mono.TextTemplating.Build
 					staleOrNewTransforms = TransformTemplates;
 				} else {
 					staleOrNewTransforms = new List<TransformTemplate> ();
-					var previousTransforms = previousBuildState.TransformTemplates.ToDictionary (t => t.InputFile);
+					var previousTransforms = previousBuildState.TransformTemplates.ToDictionary (t => t.InputFile.Distinct ());
 
 					foreach (var t in TransformTemplates) {
 						if (previousTransforms.TryGetValue (t.InputFile, out var pt) && !pt.IsStale (getFileWriteTime, logger)) {
